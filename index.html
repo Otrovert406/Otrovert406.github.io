@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的情感整理工具</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        button {
+            background-color: #0366d6;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #0250a3;
+        }
+        select, input {
+            padding: 8px;
+            margin: 10px 0;
+            width: 100%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🌱 锄头协议 · 今日挖掘</h1>
+        <p>你不需要一口完美的井，你只需要一把锄头。</p>
+
+        <h2>📝 今日情绪</h2>
+        <!-- 下拉选择框 -->
+        <select id="emotionSelect">
+            <option value="">-- 请选择 --</option>
+            <option value="开心">😊 开心</option>
+            <option value="焦虑">😟 焦虑</option>
+            <option value="愤怒">😤 愤怒</option>
+            <option value="平静">😌 平静</option>
+        </select>
+
+        <h2>💬 发生了什么？</h2>
+        <!-- 输入框 -->
+        <input type="text" id="eventInput" placeholder="简单描述一下..." />
+
+        <h2>🔗 相关资源</h2>
+        <!-- 超链接 -->
+        <ul>
+            <li><a href="docs/protocol.md" target="_blank">📜 协议草案</a></li>
+            <li><a href="docs/cases.md" target="_blank">📋 案例集</a></li>
+            <li><a href="docs/toolkit.md" target="_blank">🛠️ 工具包</a></li>
+        </ul>
+
+        <!-- 按钮 + 交互反馈区域 -->
+        <button onclick="showResponse()">🌱 挖掘一下</button>
+        <div id="responseArea" style="margin-top: 20px; padding: 10px; background-color: #e8f4f8; border-radius: 5px;"></div>
+    </div>
+
+    <script>
+        function showResponse() {
+            const emotion = document.getElementById('emotionSelect').value;
+            const eventDesc = document.getElementById('eventInput').value;
+            const responseArea = document.getElementById('responseArea');
+            
+            if (!emotion) {
+                responseArea.innerHTML = "💡 先选一下今天的情绪吧～";
+                return;
+            }
+            
+            if (!eventDesc) {
+                responseArea.innerHTML = "💡 简单描述一下发生了什么？";
+                return;
+            }
+            
+            responseArea.innerHTML = `
+                <strong>✨ 你的记录已保存</strong><br>
+                情绪：${emotion}<br>
+                事件：${eventDesc}<br><br>
+                🌟 这已经是自我认知的第一锄了。明天再来看看？
+            `;
+        }
+    </script>
+</body>
+</html>
