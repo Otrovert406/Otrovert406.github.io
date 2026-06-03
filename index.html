@@ -25,14 +25,14 @@
             width: 100%;
             background: #ffffff;
             border-radius: 32px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             overflow: hidden;
             color: #1a1a1a;
         }
 
         .header {
             padding: 24px 24px 8px 24px;
-            border-bottom: 1px solid #3a3a3c;
+            border-bottom: 1px solid #e0e0e0;
         }
 
         .header h1 {
@@ -42,11 +42,12 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            color: #1a1a1a;
         }
 
         .header p {
             margin: 8px 0 0 0;
-            color: #aaa;
+            color: #666;
             font-size: 14px;
         }
 
@@ -55,7 +56,7 @@
         }
 
         .signal-box {
-            background: #232325;
+            background: #f0f0f0;
             border-radius: 28px;
             padding: 20px;
             margin-bottom: 24px;
@@ -64,7 +65,7 @@
 
         .signal-title {
             font-size: 14px;
-            color: #aaa;
+            color: #666;
             margin-bottom: 16px;
             letter-spacing: 1px;
         }
@@ -77,27 +78,28 @@
         }
 
         .signal-btn {
-            background: #2d2d2f;
-            border: none;
+            background: #ffffff;
+            border: 1px solid #ddd;
             font-size: 48px;
             padding: 12px 0;
             width: 100px;
             border-radius: 80px;
             cursor: pointer;
             transition: all 0.2s ease;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
         }
 
         .signal-btn.selected {
-            background: #3a3a3c;
+            background: #e8e8e8;
             transform: scale(0.96);
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+            border-color: #ccc;
         }
 
         .signal-caption {
             font-size: 12px;
             margin-top: 6px;
-            color: #ccc;
+            color: #666;
         }
 
         /* 黄灯专属：待一会儿区域 */
@@ -107,9 +109,9 @@
         }
 
         .stay-btn {
-            background: #3a3a3c;
-            border: none;
-            color: #f0f0f0;
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            color: #333;
             font-size: 16px;
             padding: 12px 24px;
             border-radius: 60px;
@@ -123,12 +125,13 @@
 
         .stay-hint {
             font-size: 12px;
-            color: #aaa;
+            color: #888;
             margin-top: 8px;
         }
 
         .swear-area {
-            background: #232325;
+            background: #f9f9f9;
+            border: 1px solid #eee;
             border-radius: 28px;
             padding: 20px;
             margin-bottom: 24px;
@@ -141,13 +144,14 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            color: #333;
         }
 
         .swear-input {
             width: 100%;
-            background: #f9f9f9;
+            background: #ffffff;
             border: 1px solid #ddd;
-            color: #fff;
+            color: #333;
             padding: 14px 16px;
             border-radius: 40px;
             font-size: 16px;
@@ -157,14 +161,14 @@
 
         .swear-input:focus {
             outline: none;
-            border-color: #777;
+            border-color: #999;
         }
 
         .reflect-btn {
             width: 100%;
             background: #e0e0e0;
             border: none;
-            color: black;
+            color: #333;
             font-size: 18px;
             font-weight: 600;
             padding: 14px;
@@ -175,35 +179,29 @@
         }
 
         .reflect-btn:active {
-            background: #5e5e62;
+            background: #ccc;
             transform: scale(0.97);
         }
 
         .echo-box {
-            background: #00000030;
-            border-left: 4px solid #888;
+            background: #fafafa;
+            border-left: 4px solid #aaa;
             padding: 16px 20px;
             border-radius: 24px;
             margin-top: 28px;
             font-size: 16px;
             line-height: 1.45;
-            color: #e0e0e0;
+            color: #333;
+            border: 1px solid #eee;
         }
 
         .small-note {
             font-size: 12px;
-            color: #6c6c70;
+            color: #999;
             text-align: center;
             margin-top: 24px;
-            border-top: 1px solid #3a3a3c;
+            border-top: 1px solid #eee;
             padding-top: 20px;
-        }
-
-        footer {
-            font-size: 11px;
-            text-align: center;
-            padding: 16px 24px 24px;
-            color: #5c5c60;
         }
 
         .collapsible-area {
@@ -247,7 +245,7 @@
         <div class="swear-area">
             <div class="swear-label">
                 <span>🤬 骂一句</span>
-                <span style="font-size: 13px; color:#aaa;">( 先骂再说 )</span>
+                <span style="font-size: 13px; color:#888;">( 先骂再说 )</span>
             </div>
             <input type="text" id="swearInput" class="swear-input" placeholder="比如：操 / 真他妈烦 / 来劲了..." autocomplete="off">
 
@@ -255,7 +253,7 @@
             <div id="eventCollapse" style="display: none;">
                 <div class="swear-label" style="margin-top: 20px;">
                     <span>📝 具体发生了什么？</span>
-                    <span style="font-size: 13px; color:#aaa;">( 绿灯时可选 )</span>
+                    <span style="font-size: 13px; color:#888;">( 绿灯时可选 )</span>
                 </div>
                 <input type="text" id="eventInput" class="swear-input" placeholder="想说就说，不说也行" autocomplete="off">
             </div>
@@ -270,6 +268,7 @@
         </div>
         <div class="small-note">
             🧠 回音壁不是日记本，它不保存，只反射。<br>
+            「操，我懂了。」
         </div>
     </div>
 </div>
@@ -410,13 +409,13 @@
 
             const finalEcho = `
                 ${signalEmoji} 信号：${signalText}
-                <hr style="border-color:#3a3a3c; margin: 12px 0;">
+                <hr style="border-color:#e0e0e0; margin: 12px 0;">
                 ${swearPart}
                 ${eventPart}
                 ${signalReflection}
                 ${inviteSwear}
-                <hr style="border-color:#3a3a3c; margin: 12px 0;">
-                <span style="font-size:13px; color:#aaa;">⚡ 回音壁不记录原文，只反射此刻。刷新后一切归零，除了那句高频词。</span>
+                <hr style="border-color:#e0e0e0; margin: 12px 0;">
+                <span style="font-size:13px; color:#888;">⚡ 回音壁不记录原文，只反射此刻。刷新后一切归零，除了那句高频词。</span>
                 ${memoryLine}
             `;
 
