@@ -2,101 +2,463 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的情感整理工具</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>回音壁 · 情绪泄压阀</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #1a1a1a;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .echo-chamber {
             max-width: 600px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        .card {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        button {
-            background-color: #0366d6;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        button:hover {
-            background-color: #0250a3;
-        }
-        select, input {
-            padding: 8px;
-            margin: 10px 0;
             width: 100%;
-            border-radius: 5px;
-            border: 1px solid #ccc;
+            background: #2d2d2f;
+            border-radius: 32px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+            color: #f0f0f0;
         }
-        .hidden {
-            display: none;
+
+        .header {
+            padding: 24px 24px 8px 24px;
+            border-bottom: 1px solid #3a3a3c;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header p {
+            margin: 8px 0 0 0;
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        .content {
+            padding: 24px;
+        }
+
+        .signal-box {
+            background: #232325;
+            border-radius: 28px;
+            padding: 20px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .signal-title {
+            font-size: 14px;
+            color: #aaa;
+            margin-bottom: 16px;
+            letter-spacing: 1px;
+        }
+
+        .signals {
+            display: flex;
+            justify-content: space-around;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .signal-btn {
+            background: #2d2d2f;
+            border: none;
+            font-size: 48px;
+            padding: 12px 0;
+            width: 100px;
+            border-radius: 80px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .signal-btn.selected {
+            background: #3a3a3c;
+            transform: scale(0.96);
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .signal-caption {
+            font-size: 12px;
+            margin-top: 6px;
+            color: #ccc;
+        }
+
+        /* 黄灯专属：待一会儿区域 */
+        #stayZone {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .stay-btn {
+            background: #3a3a3c;
+            border: none;
+            color: #f0f0f0;
+            font-size: 16px;
+            padding: 12px 24px;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .stay-btn:active {
+            transform: scale(0.96);
+        }
+
+        .stay-hint {
+            font-size: 12px;
+            color: #aaa;
+            margin-top: 8px;
+        }
+
+        .swear-area {
+            background: #232325;
+            border-radius: 28px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .swear-label {
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .swear-input {
+            width: 100%;
+            background: #1c1c1e;
+            border: 1px solid #3a3a3c;
+            color: #fff;
+            padding: 14px 16px;
+            border-radius: 40px;
+            font-size: 16px;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        .swear-input:focus {
+            outline: none;
+            border-color: #777;
+        }
+
+        .reflect-btn {
+            width: 100%;
+            background: #4a4a4d;
+            border: none;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            padding: 14px;
+            border-radius: 60px;
+            margin-top: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .reflect-btn:active {
+            background: #5e5e62;
+            transform: scale(0.97);
+        }
+
+        .echo-box {
+            background: #00000030;
+            border-left: 4px solid #888;
+            padding: 16px 20px;
+            border-radius: 24px;
+            margin-top: 28px;
+            font-size: 16px;
+            line-height: 1.45;
+            color: #e0e0e0;
+        }
+
+        .small-note {
+            font-size: 12px;
+            color: #6c6c70;
+            text-align: center;
+            margin-top: 24px;
+            border-top: 1px solid #3a3a3c;
+            padding-top: 20px;
+        }
+
+        footer {
+            font-size: 11px;
+            text-align: center;
+            padding: 16px 24px 24px;
+            color: #5c5c60;
+        }
+
+        .collapsible-area {
+            margin-top: 16px;
         }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h1>🌱 锄头协议 · 今日挖掘</h1>
+<div class="echo-chamber" id="app">
+    <div class="header">
+        <h1>🗣️ 回音壁 · 今夜不谈</h1>
         <p>你不需要一口完美的井，你只需要一把锄头。</p>
-
-        <h2>📝 今日情绪</h2>
-        <!-- 下拉选择框 -->
-        <select id="emotionSelect">
-            <option value="">-- 请选择 --</option>
-            <option value="开心">😊 开心</option>
-            <option value="焦虑">😟 焦虑</option>
-            <option value="愤怒">😤 愤怒</option>
-            <option value="平静">😌 平静</option>
-        </select>
-
-        <h2>💬 发生了什么？</h2>
-        <!-- 输入框 -->
-        <input type="text" id="eventInput" placeholder="简单描述一下..." />
-
-        <h2>🔗 相关资源</h2>
-        <!-- 超链接 -->
-        <ul>
-            <li><a href="https://github.com/otrovert406/deepwell-protocol/blob/main/docs/PROTOCOL/protocol.md" target="_blank" rel="noopener noreferer">📜 协议草案</a></li>
-            <li><a href="https://github.com/otrovert406/deepwell-protocol/blob/main/docs/CASE/case.md" target="_blank" rel="noopener noreferer">📋 案例集</a></li>
-            <li><a href="https://github.com/otrovert406/deepwell-protocol/blob/main/docs/TOOLKIT/本我toolkit.md" target="_blank" rel="noopener noreferer">🛠️ 工具包</a></li>
-        </ul>
-
-        <!-- 按钮 + 交互反馈区域 -->
-        <button onclick="showResponse()">🌱 挖掘一下</button>
-        <div id="responseArea" style="margin-top: 20px; padding: 10px; background-color: #e8f4f8; border-radius: 5px;"></div>
     </div>
+    <div class="content">
+        <!-- 三档信号灯 -->
+        <div class="signal-box">
+            <div class="signal-title">⚡ 先按一盏灯</div>
+            <div class="signals">
+                <div>
+                    <button class="signal-btn" data-signal="red">🛑</button>
+                    <div class="signal-caption">红灯 · 别理我</div>
+                </div>
+                <div>
+                    <button class="signal-btn" data-signal="yellow">🟡</button>
+                    <div class="signal-caption">黄灯 · 别问，陪着</div>
+                </div>
+                <div>
+                    <button class="signal-btn" data-signal="green">🟢</button>
+                    <div class="signal-caption">绿灯 · 好了，聊吧</div>
+                </div>
+            </div>
+        </div>
 
-    <script>
-        function showResponse() {
-            const emotion = document.getElementById('emotionSelect').value;
-            const eventDesc = document.getElementById('eventInput').value;
-            const responseArea = document.getElementById('responseArea');
-            
-            if (!emotion) {
-                responseArea.innerHTML = "💡 先选一下今天的情绪吧～";
-                return;
-            }
-            
-            if (!eventDesc) {
-                responseArea.innerHTML = "💡 简单描述一下发生了什么？";
-                return;
-            }
-            
-            responseArea.innerHTML = `
-                <strong>✨ 你的记录已保存</strong><br>
-                情绪：${emotion}<br>
-                事件：${eventDesc}<br><br>
-                🌟 这已经是自我认知的第一锄了。明天再来看看？
-            `;
+        <!-- 黄灯专属：“待一会儿”按钮（默认隐藏） -->
+        <div id="stayZone" style="display: none;">
+            <button id="stayBtn" class="stay-btn">🟡 待一会儿</button>
+            <div class="stay-hint">我不说话，就待着。你也不需要说话。</div>
+        </div>
+
+        <!-- 脏话入口 -->
+        <div class="swear-area">
+            <div class="swear-label">
+                <span>🤬 骂一句</span>
+                <span style="font-size: 13px; color:#aaa;">( 先骂再说 )</span>
+            </div>
+            <input type="text" id="swearInput" class="swear-input" placeholder="比如：操 / 真他妈烦 / 来劲了..." autocomplete="off">
+
+            <!-- “发生了什么”折叠区：只在绿灯时显示 -->
+            <div id="eventCollapse" style="display: none;">
+                <div class="swear-label" style="margin-top: 20px;">
+                    <span>📝 具体发生了什么？</span>
+                    <span style="font-size: 13px; color:#aaa;">( 绿灯时可选 )</span>
+                </div>
+                <input type="text" id="eventInput" class="swear-input" placeholder="想说就说，不说也行" autocomplete="off">
+            </div>
+
+            <button class="reflect-btn" id="reflectBtn">🗣️ 扔进回音壁</button>
+        </div>
+
+        <!-- 回声区域 -->
+        <div id="echoArea" class="echo-box">
+            💡 按信号灯 → 骂一句 → 点「扔进回音壁」<br>
+            它会把你自己的话，反射给你。
+        </div>
+        <div class="small-note">
+            🧠 回音壁不是日记本，它不保存，只反射。<br>
+            「操，我懂了。」
+        </div>
+    </div>
+    <footer>
+        按你的规则：🟡的时候，别分析，陪我就行。
+    </footer>
+</div>
+
+<script>
+    (function(){
+        // ---------- DOM 元素 ----------
+        const signalBtns = document.querySelectorAll('.signal-btn');
+        const swearInput = document.getElementById('swearInput');
+        const eventInput = document.getElementById('eventInput');
+        const reflectBtn = document.getElementById('reflectBtn');
+        const echoArea = document.getElementById('echoArea');
+        const stayZone = document.getElementById('stayZone');
+        const stayBtn = document.getElementById('stayBtn');
+        const eventCollapse = document.getElementById('eventCollapse');
+
+        let currentSignal = null;   // 'red', 'yellow', 'green'
+
+        // ---------- 本地存储：记住高频脏话 ----------
+        function recordSwear(word) {
+            if (!word || word.trim() === '') return;
+            const firstChar = word.trim()[0];
+            let freq = JSON.parse(localStorage.getItem('swear_freq') || '{}');
+            freq[firstChar] = (freq[firstChar] || 0) + 1;
+            localStorage.setItem('swear_freq', JSON.stringify(freq));
         }
-    </script>
+
+        function getTopSwearChar() {
+            const freq = JSON.parse(localStorage.getItem('swear_freq') || '{}');
+            let maxCount = 0;
+            let maxChar = '';
+            for (let [ch, cnt] of Object.entries(freq)) {
+                if (cnt > maxCount) {
+                    maxCount = cnt;
+                    maxChar = ch;
+                }
+            }
+            return maxChar;
+        }
+
+        // ---------- UI 更新 ----------
+        function updateSignalUI() {
+            signalBtns.forEach(btn => {
+                const signalVal = btn.getAttribute('data-signal');
+                if ((signalVal === 'red' && currentSignal === 'red') ||
+                    (signalVal === 'yellow' && currentSignal === 'yellow') ||
+                    (signalVal === 'green' && currentSignal === 'green')) {
+                    btn.classList.add('selected');
+                } else {
+                    btn.classList.remove('selected');
+                }
+            });
+
+            // 黄灯逻辑：显示“待一会儿”按钮
+            if (currentSignal === 'yellow') {
+                stayZone.style.display = 'block';
+            } else {
+                stayZone.style.display = 'none';
+            }
+
+            // 绿灯逻辑：显示“发生了什么”折叠区；红/黄灯则隐藏
+            if (currentSignal === 'green') {
+                eventCollapse.style.display = 'block';
+            } else {
+                eventCollapse.style.display = 'none';
+            }
+        }
+
+        function setSignal(signal) {
+            currentSignal = signal;
+            updateSignalUI();
+            if (navigator.vibrate) navigator.vibrate(20);
+        }
+
+        // 待一会儿按钮：纯粹的陪伴，不分析不提问
+        function stayMoment() {
+            echoArea.innerHTML = `🟡 嗯，我在这。不说话，不打扰。你想待多久都行。`;
+            if (navigator.vibrate) navigator.vibrate(20);
+        }
+
+        // ---------- 回音壁核心反射 ----------
+        function reflect() {
+            // 1. 检查信号灯
+            let signalText = '';
+            let signalEmoji = '';
+            if (currentSignal === 'red') {
+                signalText = '红灯 🛑';
+                signalEmoji = '🛑';
+            } else if (currentSignal === 'yellow') {
+                signalText = '黄灯 🟡';
+                signalEmoji = '🟡';
+            } else if (currentSignal === 'green') {
+                signalText = '绿灯 🟢';
+                signalEmoji = '🟢';
+            } else {
+                echoArea.innerHTML = `⚠️ 先按一盏灯 🟡🛑🟢<br>红灯=别理我，黄灯=别问陪着，绿灯=好了聊吧。`;
+                return;
+            }
+
+            let swear = swearInput.value.trim();
+            let eventDesc = eventInput.value.trim();
+
+            // 没有脏话也没有事件时提醒
+            if (swear === "" && eventDesc === "") {
+                echoArea.innerHTML = `${signalEmoji} 信号：${signalText}<br><br>🤬 骂一句再说。随便骂，回音壁不嫌弃脏话。`;
+                return;
+            }
+
+            // 记录脏话（仅记录第一个字符频率）
+            if (swear !== "") {
+                recordSwear(swear);
+            }
+
+            // 构建反射内容（去掉“分析”，只重复和陪伴）
+            let reflection = '';
+            let swearPart = (swear !== "") ? `你说了：「${swear}」` : `你没有骂脏话，但情绪不需要优雅。`;
+            let eventPart = (eventDesc !== "") ? `\n你提到：「${eventDesc}」` : ``;
+
+            // 按信号灯定制结尾（不解读，只承认状态）
+            let signalReflection = '';
+            if (currentSignal === 'red') {
+                signalReflection = `\n🛑 红灯。我退开，不打扰。你需要自己的空间。`;
+            } else if (currentSignal === 'yellow') {
+                signalReflection = `\n🟡 黄灯。我在这，不分析、不提问、不给建议。你想说话我就听，不想说话我就安静待着。`;
+            } else if (currentSignal === 'green') {
+                signalReflection = `\n🟢 绿灯。你可以正常说话了，或者继续骂一句也行。`;
+            }
+
+            // 去掉“脏话检测”那种解读，只问要不要再来一句
+            let inviteSwear = (swear !== "") ? `\n\n要不要再来一句？或者，就这么待着也行。` : `\n\n随时可以再骂一句。`;
+
+            // 记忆提示（高频词）
+            const topChar = getTopSwearChar();
+            let memoryLine = '';
+            if (topChar) {
+                memoryLine = `<div style="font-size: 11px; color: #888; margin-top: 16px; text-align: center;">📌 你上次说得最多的词是「${topChar}」。它还在。</div>`;
+            }
+
+            const finalEcho = `
+                ${signalEmoji} 信号：${signalText}
+                <hr style="border-color:#3a3a3c; margin: 12px 0;">
+                ${swearPart}
+                ${eventPart}
+                ${signalReflection}
+                ${inviteSwear}
+                <hr style="border-color:#3a3a3c; margin: 12px 0;">
+                <span style="font-size:13px; color:#aaa;">⚡ 回音壁不记录原文，只反射此刻。刷新后一切归零，除了那句高频词。</span>
+                ${memoryLine}
+            `;
+
+            echoArea.innerHTML = finalEcho;
+            if (navigator.vibrate) navigator.vibrate(50);
+        }
+
+        // ---------- 绑定事件 ----------
+        signalBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const signal = btn.getAttribute('data-signal');
+                setSignal(signal);
+            });
+        });
+
+        if (stayBtn) {
+            stayBtn.addEventListener('click', stayMoment);
+        }
+
+        reflectBtn.addEventListener('click', reflect);
+
+        // 回车快捷反射
+        const inputs = [swearInput, eventInput];
+        inputs.forEach(inp => {
+            if (inp) {
+                inp.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        reflect();
+                    }
+                });
+            }
+        });
+
+        // 初始隐藏黄灯插件 & 绿灯折叠区
+        stayZone.style.display = 'none';
+        eventCollapse.style.display = 'none';
+    })();
+</script>
 </body>
 </html>
