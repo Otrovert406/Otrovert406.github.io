@@ -244,10 +244,10 @@
         <!-- 脏话入口 -->
         <div class="swear-area">
             <div class="swear-label">
-                <span>🤬 骂一句</span>
-                <span style="font-size: 13px; color:#888;">( 先骂再说 )</span>
+                <span>🤬 发泄一句</span>
+                <span style="font-size: 13px; color:#888;">( 先疏通再说 )</span>
             </div>
-            <input type="text" id="swearInput" class="swear-input" placeholder="比如：操 / 真他妈烦 / 来劲了..." autocomplete="off">
+            <input type="text" id="swearInput" class="swear-input" placeholder="比如：操 / 难受 / 郁闷/不被理解..." autocomplete="off">
 
             <!-- “发生了什么”折叠区：只在绿灯时显示 -->
             <div id="eventCollapse" style="display: none;">
@@ -338,6 +338,7 @@
         }
 
         function setSignal(signal) {
+            echoArea.innerHTML=''; 
             currentSignal = signal;
             updateSignalUI();
             if (navigator.vibrate) navigator.vibrate(20);
